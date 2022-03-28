@@ -1,6 +1,6 @@
-package id
+package name
 
-var MaleFirstnames = []string{
+var MaleLastnames = []string{
 	"Abyasa",
 	"Ade",
 	"Adhiarja",

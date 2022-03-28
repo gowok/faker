@@ -1,4 +1,4 @@
-package id
+package name
 
 var FemaleFirstnames = []string{
 	"Ade",

@@ -19,7 +19,7 @@ func (f *fakename) getRandomIndex(list []string) uint {
 	return r.Uint(0, uint(len(list)-1))
 }
 
-func (f *fakename) FromFirstnamesAndLastnames(firstnames, lastnames []string, opts ...NameOption) string {
+func (f *fakename) fromFirstnamesAndLastnames(firstnames, lastnames []string, opts ...NameOption) string {
 	opt := &nameOption{
 		length: 2,
 	}
@@ -29,9 +29,13 @@ func (f *fakename) FromFirstnamesAndLastnames(firstnames, lastnames []string, op
 
 	var name string
 	for i := uint(0); i < opt.length; i++ {
-		if i == 0 {
+		if i != opt.length-1 {
 			nameIndex := f.getRandomIndex(firstnames)
-			name = firstnames[nameIndex]
+			if i == 0 {
+				name = firstnames[nameIndex]
+			} else {
+				name = fmt.Sprintf("%s %s", name, firstnames[nameIndex])
+			}
 		} else {
 			nameIndex := f.getRandomIndex(lastnames)
 			name = fmt.Sprintf("%s %s", name, lastnames[nameIndex])
@@ -42,9 +46,9 @@ func (f *fakename) FromFirstnamesAndLastnames(firstnames, lastnames []string, op
 }
 
 func (f *fakename) Male(opts ...NameOption) string {
-	return f.FromFirstnamesAndLastnames(id.MaleFirstnames, id.MaleLastnames, opts...)
+	return f.fromFirstnamesAndLastnames(id.MaleFirstnames, id.MaleLastnames, opts...)
 }
 
 func (f *fakename) Female(opts ...NameOption) string {
-	return f.FromFirstnamesAndLastnames(id.FemaleFirstnames, id.FemaleLastnames, opts...)
+	return f.fromFirstnamesAndLastnames(id.FemaleFirstnames, id.FemaleLastnames, opts...)
 }

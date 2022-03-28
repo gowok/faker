@@ -1,4 +1,4 @@
-package faker
+package random
 
 import (
 	"errors"
@@ -18,7 +18,7 @@ const (
 	Ascii    = Alphabet + Numerals + "~!@#$%^&*()-_+={}[]\\|<,>.?/\"';:`"
 )
 
-func buildRandom() *randomizer {
+func New() *randomizer {
 	rand.Seed(time.Now().UnixNano())
 	return &randomizer{}
 }

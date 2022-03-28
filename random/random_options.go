@@ -1,4 +1,4 @@
-package faker
+package random
 
 type stringCase string
 type RandomStringOption func(*stringOpts)

@@ -15,11 +15,12 @@ var (
 const (
 	Alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	Numerals = "0123456789"
-	Ascii    = Alphabet + Numerals + "~!@#$%^&*()-_+={}[]\\|<,>.?/\"';:`"
+	Symbols  = "~!@#$%^&*()-_+={}[]\\|<,>.?/\"';:`"
+	Alphanum = Alphabet + Numerals
+	Ascii    = Alphanum + Symbols
 )
 
 func New() *randomizer {
-	rand.Seed(time.Now().UnixNano())
 	return &randomizer{}
 }
 
@@ -27,6 +28,8 @@ type randomizer struct {
 }
 
 func (r randomizer) Uint(min, max uint) (v uint) {
+	rand.Seed(time.Now().UnixNano())
+
 	if min > max {
 		log.Fatal(ErrMinMoreThanMax)
 	}
@@ -42,6 +45,28 @@ func (r randomizer) String(length uint, opts ...RandomStringOption) (v string) {
 	max := uint(len(Alphabet) - 1)
 	for i := uint(0); i < length; i++ {
 		v += string(Alphabet[r.Uint(0, max)])
+	}
+
+	if opt.cases == lowerCase {
+		return strings.ToLower(v)
+	}
+
+	if opt.cases == upperCase {
+		return strings.ToUpper(v)
+	}
+
+	return
+}
+
+func (r randomizer) Alphanum(length uint, opts ...RandomStringOption) (v string) {
+	opt := &stringOpts{}
+	for _, o := range opts {
+		o(opt)
+	}
+
+	max := uint(len(Alphanum) - 1)
+	for i := uint(0); i < length; i++ {
+		v += string(Alphanum[r.Uint(0, max)])
 	}
 
 	if opt.cases == lowerCase {

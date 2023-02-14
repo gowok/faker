@@ -26,4 +26,14 @@ func TestName(t *testing.T) {
 		must.Equal(expected, actual)
 	})
 
+	t.Run("can fake male name with locale", func(t *testing.T) {
+		expected := "id"
+		result := &nameOption{}
+
+		WithLocale(expected)(result)
+
+		must := must.New(t)
+		must.Equal(expected, result.locale)
+	})
+
 }

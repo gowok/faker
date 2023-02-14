@@ -20,14 +20,14 @@ const (
 	Ascii    = Alphanum + Symbols
 )
 
-func New() *randomizer {
-	return &randomizer{}
+func New() *Randomizer {
+	return &Randomizer{}
 }
 
-type randomizer struct {
+type Randomizer struct {
 }
 
-func (r randomizer) Uint(min, max uint) (v uint) {
+func (r Randomizer) Uint(min, max uint) (v uint) {
 	rand.Seed(time.Now().UnixNano())
 
 	if min > max {
@@ -36,7 +36,7 @@ func (r randomizer) Uint(min, max uint) (v uint) {
 	return uint(rand.Intn(int(max-min))) + min
 }
 
-func (r randomizer) String(length uint, opts ...RandomStringOption) (v string) {
+func (r Randomizer) String(length uint, opts ...RandomStringOption) (v string) {
 	opt := &stringOpts{}
 	for _, o := range opts {
 		o(opt)
@@ -58,7 +58,7 @@ func (r randomizer) String(length uint, opts ...RandomStringOption) (v string) {
 	return
 }
 
-func (r randomizer) Alphanum(length uint, opts ...RandomStringOption) (v string) {
+func (r Randomizer) Alphanum(length uint, opts ...RandomStringOption) (v string) {
 	opt := &stringOpts{}
 	for _, o := range opts {
 		o(opt)
@@ -80,7 +80,7 @@ func (r randomizer) Alphanum(length uint, opts ...RandomStringOption) (v string)
 	return
 }
 
-func (r randomizer) Ascii(length uint) (v string) {
+func (r Randomizer) Ascii(length uint) (v string) {
 	max := uint(len(Ascii) - 1)
 	for i := uint(0); i < length; i++ {
 		v += string(Ascii[r.Uint(0, max)])

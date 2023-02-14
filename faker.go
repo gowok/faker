@@ -5,5 +5,13 @@ import (
 	"github.com/gowok/faker/random"
 )
 
-var Random = random.New()
-var Name = name.New()
+var defaultRandom = random.New()
+var defaultName = name.New()
+
+func Random() *random.Randomizer {
+	return defaultRandom
+}
+
+func Name() *name.Fakename {
+	return defaultName
+}

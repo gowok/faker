@@ -7,19 +7,19 @@ import (
 	"github.com/gowok/faker/random"
 )
 
-type fakename struct {
+type Fakename struct {
 }
 
-func New() *fakename {
-	return &fakename{}
+func New() *Fakename {
+	return &Fakename{}
 }
 
-func (f *fakename) getRandomIndex(list []string) uint {
+func (f *Fakename) getRandomIndex(list []string) uint {
 	r := random.New()
 	return r.Uint(0, uint(len(list)-1))
 }
 
-func (f *fakename) buildOpts(fallback *nameOption, opts ...NameOption) *nameOption {
+func (f *Fakename) buildOpts(fallback *nameOption, opts ...NameOption) *nameOption {
 	if fallback == nil {
 		fallback = &nameOption{
 			length: 2,
@@ -33,7 +33,7 @@ func (f *fakename) buildOpts(fallback *nameOption, opts ...NameOption) *nameOpti
 	return fallback
 }
 
-func (f *fakename) fromFirstnamesAndLastnames(firstnames, lastnames []string, opt *nameOption) string {
+func (f *Fakename) fromFirstnamesAndLastnames(firstnames, lastnames []string, opt *nameOption) string {
 	var name string
 	for i := uint(0); i < opt.length; i++ {
 		if i != opt.length-1 {
@@ -52,13 +52,13 @@ func (f *fakename) fromFirstnamesAndLastnames(firstnames, lastnames []string, op
 	return name
 }
 
-func (f *fakename) Male(opts ...NameOption) string {
+func (f *Fakename) Male(opts ...NameOption) string {
 	opt := f.buildOpts(nil, opts...)
 	l, _ := locales.Get(opt.locale)
 	return f.fromFirstnamesAndLastnames(l.Name().MaleFirstnames, l.Name().MaleLastnames, opt)
 }
 
-func (f *fakename) Female(opts ...NameOption) string {
+func (f *Fakename) Female(opts ...NameOption) string {
 	opt := f.buildOpts(nil, opts...)
 	l, _ := locales.Get(opt.locale)
 	return f.fromFirstnamesAndLastnames(l.Name().FemaleFirstnames, l.Name().FemaleLastnames, opt)
